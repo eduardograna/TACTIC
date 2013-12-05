@@ -65,7 +65,15 @@ class UploadMultipart(object):
                 fields.append( ("login_ticket", my.ticket) )
                 basename = os.path.basename(path)
                 from json import dumps as jsondumps
-                basename = basename.decode(sys.stdout.encoding)
+				#basename = basename.decode(sys.stdout.encoding) #!eg
+                try: #eg
+					print 'sys.stdout.encoding',sys.stdout.encoding #eg
+					print 'sys.stdout.encoding type',type(sys.stdout.encoding) #eg
+					coding =  sys.stdout.encoding #eg
+                except AttributeError, e: #eg
+					print 'cant get console encoding',e #eg
+					coding =  'cp850' #eg
+                basename =  basename.decode(coding) #eg
                 basename = jsondumps(basename)
                 basename = basename.strip('"')
                 # the first index begins at 0
